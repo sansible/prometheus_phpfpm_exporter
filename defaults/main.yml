@@ -1,0 +1,14 @@
+---
+
+prometheus_phpfpm_exporter:
+  checksum: sha256:db234e6eead69a1ffad77137392452dfa421d03e60ff3c5211c8ab72bf514648
+  download_dest: "/tmp"
+  download_url: "https://github.com/bakins/php-fpm-exporter/releases/download/v0.1.1/php-fpm-exporter.linux.amd64"
+  group: prometheus
+  opts: ~
+  path:
+    install: /home/prometheus
+    log: /var/log/prometheus
+    pid: /var/run/prometheus
+  start_on_boot: yes
+  user: prometheus

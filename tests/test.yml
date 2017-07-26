@@ -1,0 +1,34 @@
+---
+
+- name: Test Prometheus PHP FPM Exporter role
+  hosts: all
+
+  pre_tasks:
+    - name: Update apt
+      become: yes
+      apt:
+        cache_valid_time: 1800
+        update_cache: yes
+      tags:
+        - build
+
+  roles:
+    - role: sansible.prometheus_phpfpm_exporter
+
+  post_tasks:
+    - name: Get Prometheus PHP FPM Exporter service state
+      become: yes
+      service:
+        name: prometheus-phpfpm-exporter
+        state: started
+      register: status
+      tags:
+        - assert
+
+    - name: Assert that Prometheus PHP FPM Exporter has been running
+      assert:
+        that:
+          - "false == status.changed"
+          - "'started' == status.state"
+      tags:
+        - assert
