@@ -1,0 +1,56 @@
+---
+
+- name: Create Prometheus PHP FPM Exporter directories
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ prometheus_phpfpm_exporter.user }}"
+    group: "{{ prometheus_phpfpm_exporter.group }}"
+    mode: 0750
+  with_items:
+    - "{{ prometheus_phpfpm_exporter.path.install }}"
+    - "{{ prometheus_phpfpm_exporter.path.install }}/bin"
+    - "{{ prometheus_phpfpm_exporter.path.install }}/prometheus_phpfpm_exporter"
+    - "{{ prometheus_phpfpm_exporter.path.log }}"
+
+- name: Copy wrapper shell script
+  become: yes
+  copy:
+    src: prometheus_wrapper
+    dest: "{{ prometheus_phpfpm_exporter.path.install }}/bin/prometheus_wrapper"
+    owner: "{{ prometheus_phpfpm_exporter.user }}"
+    group: "{{ prometheus_phpfpm_exporter.group }}"
+    mode: 0755
+
+- name: Download Prometheus PHP FPM Exporter binary
+  become: yes
+  get_url:
+    url: "{{ prometheus_phpfpm_exporter.download_url }}"
+    dest: "{{ prometheus_phpfpm_exporter.path.install }}/prometheus_phpfpm_exporter/phpfpm_exporter"
+    checksum: "{{ prometheus_phpfpm_exporter.checksum }}"
+    owner: "{{ prometheus_phpfpm_exporter.user }}"
+    group: "{{ prometheus_phpfpm_exporter.group }}"
+    mode: 0755
+
+- name: Set Prometheus PHP FPM Exporter defaults
+  become: yes
+  template:
+    dest: /etc/default/prometheus-phpfpm-exporter
+    mode: 0644
+    src: prometheus_phpfpm_exporter.default.j2
+
+- name: Make Prometheus PHP FPM Exporter a service
+  become: yes
+  template:
+    dest: /etc/init.d/prometheus-phpfpm-exporter
+    mode: 0775
+    src: prometheus_phpfpm_exporter.sysvinit.j2
+
+- name: Make Prometheus PHP FPM Exporter service start on boot
+  become: yes
+  service:
+    name: prometheus-phpfpm-exporter
+    enabled: yes
+    state: started
+  when: prometheus_phpfpm_exporter.start_on_boot
