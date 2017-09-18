@@ -14,6 +14,8 @@
 
   roles:
     - role: sansible.prometheus_phpfpm_exporter
+      prometheus_phpfpm_exporter:
+        start_on_boot: yes
 
   post_tasks:
     - name: Get Prometheus PHP FPM Exporter service state

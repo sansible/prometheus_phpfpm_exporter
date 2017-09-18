@@ -51,6 +51,5 @@
   become: yes
   service:
     name: prometheus-phpfpm-exporter
-    enabled: yes
+    enabled: "{{ prometheus_phpfpm_exporter.start_on_boot }}"
     state: started
-  when: prometheus_phpfpm_exporter.start_on_boot
