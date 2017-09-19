@@ -86,3 +86,13 @@ Include the role in your playbook overriding the exporter address and the PHP en
         opts: --addr 0.0.0.0:9338 --endpoint http://127.0.0.1:80/status
 ```
     
+```YAML
+- name: Install, configure and start on boot prometheus_phpfpm_exporter
+  hosts: "{{ host }}
+
+  roles:
+    - role: sansible.prometheus_phpfpm_exporter
+      prometheus_phpfpm_exporter:
+        start_on_boot: yes
+        opts: --addr 0.0.0.0:9338 --endpoint http://127.0.0.1:80/status
+```

@@ -10,5 +10,5 @@ prometheus_phpfpm_exporter:
     install: /home/prometheus
     log: /var/log/prometheus
     pid: /var/run/prometheus
-  start_on_boot: yes
+  start_on_boot: no
   user: prometheus

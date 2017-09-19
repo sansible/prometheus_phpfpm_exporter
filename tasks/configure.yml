@@ -1,0 +1,8 @@
+---
+
+- name: Start Prometheus PHP FPM Exporter
+  become: yes
+  service:
+    name: prometheus-phpfpm-exporter
+    state: started
+  when: prometheus_phpfpm_exporter.start_on_boot
