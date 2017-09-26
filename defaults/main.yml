@@ -5,7 +5,7 @@ prometheus_phpfpm_exporter:
   download_dest: "/tmp"
   download_url: "https://github.com/bakins/php-fpm-exporter/releases/download/v0.1.1/php-fpm-exporter.linux.amd64"
   group: prometheus
-  opts: ~
+  opts: --addr 0.0.0.0:9338 --endpoint http://127.0.0.1:80/status
   path:
     install: /home/prometheus
     log: /var/log/prometheus
