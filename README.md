@@ -62,9 +62,9 @@ This role uses tags: **build** and **configure**
 
 Simply include role in your playbook accepting the defaults:
 
-exporter address 127.0.0.1:8080
+exporter address 0.0.0.0:9338 
 
-PHP FPM endpoint http://127.0.0.1:9000/status
+PHP FPM endpoint http://127.0.0.1:80/status
 
 ```YAML
 - name: Install and configure prometheus_phpfpm_exporter
@@ -83,7 +83,7 @@ Include the role in your playbook overriding the exporter address and the PHP en
   roles:
     - role: sansible.prometheus_phpfpm_exporter
       prometheus_phpfpm_exporter:
-        opts: --addr 0.0.0.0:9338 --endpoint http://127.0.0.1:80/status
+        opts: --addr 0.0.0.0:1234 --endpoint http://127.0.0.1:8080/status
 ```
     
 ```YAML
@@ -94,5 +94,5 @@ Include the role in your playbook overriding the exporter address and the PHP en
     - role: sansible.prometheus_phpfpm_exporter
       prometheus_phpfpm_exporter:
         start_on_boot: yes
-        opts: --addr 0.0.0.0:9338 --endpoint http://127.0.0.1:80/status
+        opts: --addr 0.0.0.0:1234 --endpoint http://127.0.0.1:8080/status
 ```
